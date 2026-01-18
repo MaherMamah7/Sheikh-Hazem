@@ -15,6 +15,7 @@
 /* =========================
    BASE
    ========================= */
+   
 * {
   margin: 0;
   padding: 0;
@@ -82,6 +83,9 @@ body {
   border-radius: 50%;
   z-index: 9999;
 }
+
+.cursor, .cursor-follower { pointer-events: none !important; }
+
 
 .cursor-follower {
   width: 40px;
@@ -1251,4 +1255,83 @@ body.cursor-glow .cursor-follower{
   font-size: 3.2rem;     /* Nastaliq reads larger */
   line-height: 1.6;      /* Nastaliq needs more vertical space */
   word-spacing: 0.25em;  /* keeps words from “sticking” */
+}
+
+/* =========================
+   MOBILE / TOUCH FIXES
+   ========================= */
+@media (hover: none) and (pointer: coarse) {
+  /* Bring normal pointer behavior back */
+  * { cursor: auto !important; }
+
+  /* Absolutely kill the custom cursor layers */
+  .cursor, .cursor-follower {
+    display: none !important;
+    pointer-events: none !important;
+  }
+
+  /* Ensure canvas can never block touches */
+  #lattice-canvas { pointer-events: none !important; }
+}
+
+
+/* =========================
+   HERO ORDER ON MOBILE
+   ========================= */
+@media (max-width: 992px) {
+
+  /* Let header grow naturally on mobile */
+  header#home{
+    min-height: 100svh;
+    height: auto;
+    padding-top: 110px;
+    padding-bottom: 40px;
+  }
+
+  /* Stack items and allow ordering */
+  .hero-container{
+    flex-direction: column;
+    height: auto;
+    gap: 18px;
+  }
+
+  /* 1) Image comes right after the salawat */
+  .hero-image-wrapper{
+    order: 1;
+    max-width: 320px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  /* 2) Title/subtitle come after the image */
+  .hero-text{
+    order: 2;
+    width: 100%;
+    max-width: 650px;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  /* Make sure the title/subtitle are visible and sized */
+  .hero-text h1{
+    display: block;
+    font-size: clamp(2.4rem, 9vw, 4rem);
+    line-height: 1.15;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .subtitle-ar{
+    display: block;
+    font-size: clamp(1.05rem, 4.2vw, 1.4rem);
+    line-height: 1.9;
+    margin: 0 auto;
+  }
+
+  /* Top salawat text: smaller so it fits */
+  .hero-top-title p{
+    font-size: clamp(1.05rem, 3.8vw, 1.6rem);
+    padding: 0 12px;
+    text-align: center;
+  }
 }
